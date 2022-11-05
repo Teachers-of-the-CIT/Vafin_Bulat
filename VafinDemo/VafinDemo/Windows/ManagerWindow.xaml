@@ -1,0 +1,77 @@
+﻿<Window x:Class="VafinDemo.Windows.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VafinDemo.Windows"
+        mc:Ignorable="d"
+        Title="ManagerWindow" Height="450" MinHeight="450" Width="800" MinWidth="800" Icon="/Resources/icon.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="77*"/>
+            <RowDefinition Height="305*"/>
+            <RowDefinition Height="52*"/>
+        </Grid.RowDefinitions>
+
+        <Image x:Name="LogoImg" Source="/Resources/logo.png" Grid.Row="0" Grid.Column="0"></Image>
+        <Button x:Name="ProductsBtn" Content="Товары" Grid.Row="0" Grid.Column="1" FontSize="22" Width="150" Height="40" Click="ProductsBtn_Click"></Button>
+        <Button x:Name="OrdersBtn" Content="Заказы" Grid.Row="0" Grid.Column="2" FontSize="22" Width="150" Height="40" Click="OrdersBtn_Click"></Button>
+        <Button x:Name="ExitBtn" Content="Выйти" Grid.Row="0" Grid.Column="3" FontSize="22" Width="150" Height="40" Click="ExitBtn_Click"></Button>
+
+        <DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата создания" Binding="{Binding Creation_date}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата заказа" Binding="{Binding Order_date}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Код получения" Binding="{Binding Receive_code}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" FontSize="14"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Изменить" ToolTip="Перейти к редактированию данного заказа" Name="EditOrderBtn" Width="100" Height="25" FontSize="14" Click="EditOrderBtn_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="AddOrderBtn" Content="Добавить" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="40" FontSize="22" Visibility="Hidden" Click="AddOrderBtn_Click"></Button>
+
+        <ListView  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Name="ProductsLv" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  Visibility="Hidden">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width = "8*" ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="150"/>
+                        </Grid.RowDefinitions>
+                        <Image Width="180" Grid.Row="1" Stretch="Fill" HorizontalAlignment="Left" Margin="5">
+                            <Image.Source>
+                                <Binding Path="Preview">
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                            <Label Content="{Binding Name}" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" Grid.Column="1"></Label>
+                            <TextBlock Text="{Binding Description, StringFormat={}Описание: {0:N2}}" Width="1000" VerticalAlignment="Top" FontSize="14" TextWrapping="Wrap" Grid.Row="1" Grid.Column="1"></TextBlock>
+                            <TextBlock Text="{Binding Manufacturer,StringFormat={}Производитель: {0:N2}}" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Left"></TextBlock>
+                            <TextBlock Text="{Binding Cost, StringFormat={}Цена: {0:N2}}" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Left"></TextBlock>
+                            <TextBlock Text="{Binding CurrentSale, StringFormat={}Текущая скидка: {0:N2}}" Grid.Row="1" Grid.Column="1" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>
