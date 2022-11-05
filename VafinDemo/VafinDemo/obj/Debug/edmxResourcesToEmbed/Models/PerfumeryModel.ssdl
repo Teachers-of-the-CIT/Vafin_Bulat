@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище PerfumeryModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Creation_date" Type="datetime" />
+    <Property Name="Order_date" Type="datetime" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
+    <Property Name="Receive_code" Type="int" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="PointOfIssueId" Type="int" />
+  </EntityType>
+  <EntityType Name="Order_Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderID" Type="int" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="Product_count" Type="int" />
+  </EntityType>
+  <EntityType Name="PointOfIssue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Code" Type="int" />
+    <Property Name="City" Type="nvarchar" MaxLength="150" />
+    <Property Name="Street" Type="nchar" MaxLength="150" />
+    <Property Name="House" Type="int" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="6" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Unit" Type="nvarchar" MaxLength="3" />
+    <Property Name="Cost" Type="int" />
+    <Property Name="MaxDiscount" Type="int" />
+    <Property Name="Production" Type="nvarchar" MaxLength="100" />
+    <Property Name="Provider" Type="nvarchar" MaxLength="50" />
+    <Property Name="Category" Type="nvarchar" MaxLength="100" />
+    <Property Name="ActualDiscount" Type="int" />
+    <Property Name="StockQuantity" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Preview" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="USer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
+    <Property Name="Login" Type="nvarchar" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="Role" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_Order_PointOfIssue">
+    <End Role="PointOfIssue" Type="Self.PointOfIssue" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PointOfIssue">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="PointOfIssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Product_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Order_Product" Type="Self.Order_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order_Product">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Product_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Order_Product" Type="Self.Order_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order_Product">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище PerfumeryModelContainer">
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order_Product" EntityType="Self.Order_Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PointOfIssue" EntityType="Self.PointOfIssue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USer" EntityType="Self.USer" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Order_PointOfIssue" Association="Self.FK_Order_PointOfIssue">
+      <End Role="PointOfIssue" EntitySet="PointOfIssue" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Product_Order" Association="Self.FK_Order_Product_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Order_Product" EntitySet="Order_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Product_Product" Association="Self.FK_Order_Product_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Order_Product" EntitySet="Order_Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
